@@ -1,0 +1,13 @@
+[
+  {
+    "origin": [
+      "https://orchidinteriors.com",
+      "https://www.orchidinteriors.com",
+      "https://orchid-interiors.vercel.app",
+      "http://localhost:3000"
+    ],
+    "method": ["PUT"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]
