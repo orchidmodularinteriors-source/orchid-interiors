@@ -15,8 +15,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const videos = [
   {
-    desktop: "/videos/orchid-interiors-landscape.mp4",
-    mobile: "/videos/orchid-interiors-mobile.mp4",
+    desktop: "/images/videos/vesta.mp4",
+    mobile: "/images/videos/orchid-interiors-mobile.mp4",
     title: "Every detail tells a story.",
     category: "Design · Craft · Detail",
   },

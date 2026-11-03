@@ -338,33 +338,6 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              {/* Social Links */}
-              <div>
-                <h3 className="mb-6 text-xs font-medium tracking-[0.32em] uppercase text-stone-600">
-                  Follow Us
-                </h3>
-                <div className="flex gap-6">
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Instagram"
-                    className="text-black transition-opacity duration-300 hover:opacity-60"
-                  >
-                    IG
-                  </a>
-                  <a
-                    href="https://pinterest.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Pinterest"
-                    className="text-black transition-opacity duration-300 hover:opacity-60"
-                  >
-                    P
-                  </a>
-                </div>
-              </div>
-
               <div className="rounded-[2rem] border border-stone-200 bg-stone-50 p-7">
                 <p className="mb-5 text-xs font-medium tracking-[0.2em] uppercase text-stone-600">
                   What happens next
