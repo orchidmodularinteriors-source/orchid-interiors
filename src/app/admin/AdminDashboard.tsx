@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ContentKind } from "@/lib/content-schema";
+import { normalizeMediaUrl } from "@/lib/media-url";
 
 type ContentItem = {
   id?: number;
@@ -35,7 +36,9 @@ const singularLabels: Record<ContentKind, string> = {
 };
 
 function coverImage(item: ContentItem) {
-  return item.image || item.images?.[0] || item.gallery?.[0] || "/images/hero-1.png";
+  return normalizeMediaUrl(
+    item.image || item.images?.[0] || item.gallery?.[0] || "/images/hero-1.png",
+  );
 }
 
 export default function AdminDashboard({

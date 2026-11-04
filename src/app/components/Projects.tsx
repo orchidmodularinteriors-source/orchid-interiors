@@ -10,8 +10,7 @@ const CATEGORIES = [
   "Residential",
   "Commercial",
   "Hospitality",
-  "Institute",
-  "Luxury",
+  "Institute"
 ] as const;
 
 type CategoryType = (typeof CATEGORIES)[number];

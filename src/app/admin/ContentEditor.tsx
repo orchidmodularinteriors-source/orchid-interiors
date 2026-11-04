@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import type { ContentKind } from "@/lib/content-schema";
+import { normalizeMediaUrl } from "@/lib/media-url";
 
 type EditableContent = {
   id?: number;
@@ -224,17 +225,21 @@ export default function ContentEditor({
       slug: slug.trim(),
       description: description.trim(),
       published: true,
-      video,
+      video: video ? normalizeMediaUrl(video) : "",
       ...(kind === "services"
-        ? { image: cover, gallery, detail: detail.trim() }
+        ? {
+            image: cover ? normalizeMediaUrl(cover) : "",
+            gallery: gallery.map(normalizeMediaUrl),
+            detail: detail.trim(),
+          }
         : {}),
       ...(kind === "design-library"
-        ? { images: gallery }
+        ? { images: gallery.map(normalizeMediaUrl) }
         : {}),
       ...(kind === "projects"
         ? {
-            image: cover,
-            gallery,
+            image: cover ? normalizeMediaUrl(cover) : "",
+            gallery: gallery.map(normalizeMediaUrl),
             category,
             location: location.trim(),
             width: initialItem?.width ?? 1920,
@@ -398,7 +403,7 @@ export default function ContentEditor({
               </div>
               {cover ? (
                 <div className="relative mt-5 aspect-[16/8] overflow-hidden rounded-xl bg-stone-100">
-                  <Image alt="Content cover preview" className="object-cover" fill sizes="(max-width: 768px) 100vw, 800px" src={cover} />
+                  <Image alt="Content cover preview" className="object-cover" fill sizes="(max-width: 768px) 100vw, 800px" src={normalizeMediaUrl(cover)} />
                   <button
                     className="absolute right-3 top-3 rounded-lg bg-white/95 px-3 py-2 text-xs font-medium text-red-700 shadow"
                     onClick={() => {
@@ -459,7 +464,7 @@ export default function ContentEditor({
               <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {galleryImages.map((image, index) => (
                   <figure className="group relative aspect-square overflow-hidden rounded-xl bg-stone-100" key={`${image}-${index}`}>
-                    <Image alt={`Gallery image ${index + 1}`} className="object-cover" fill sizes="(max-width: 640px) 50vw, 25vw" src={image} />
+                    <Image alt={`Gallery image ${index + 1}`} className="object-cover" fill sizes="(max-width: 640px) 50vw, 25vw" src={normalizeMediaUrl(image)} />
                     <button
                       aria-label={`Remove image ${index + 1}`}
                       className="absolute right-2 top-2 rounded-lg bg-white/95 px-2.5 py-1.5 text-xs font-medium text-red-700 opacity-100 shadow sm:opacity-0 sm:transition group-hover:opacity-100"

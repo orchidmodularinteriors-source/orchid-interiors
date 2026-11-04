@@ -15,10 +15,14 @@ const missingProjectAssetPrefixes = [
 ];
 
 export function resolveProjectAsset(path: string) {
-  const filename = path.split("/").pop() ?? "";
+  const assetPath =
+    path.startsWith("/") || /^[a-z][a-z\d+.-]*:\/\//i.test(path)
+      ? path
+      : `/${path}`;
+  const filename = assetPath.split("/").pop() ?? "";
   const baseName = filename.replace(/\.jpg$/, "").replace(/-\d+$/, "");
 
   return missingProjectAssetPrefixes.includes(baseName)
     ? "/images/projects/1.png"
-    : path;
+    : assetPath;
 }

@@ -4,7 +4,6 @@ import About from "./components/About";
 import Services from "./components/Services";
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
-import FeaturedProjects from "./components/FeaturedProjects";
 import VideoShowcase from "./components/VideoShowcase";
 import BrandPartners from "./components/BrandPartners";
 import { getProjects, getServices } from "@/lib/content";
@@ -33,7 +32,6 @@ export default async function Home() {
         <Hero />
         <About />
         <Services services={services} />
-        <FeaturedProjects projects={projectItems} />
         <BrandPartners />
         <VideoShowcase />
         <Projects projectLimit={2} projects={projects} />

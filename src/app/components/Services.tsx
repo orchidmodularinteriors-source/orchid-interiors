@@ -17,12 +17,16 @@ type ServiceShape = {
 
 export default function Services({
   services,
+  layout = "carousel",
 }: {
   services: readonly ServiceShape[];
+  layout?: "carousel" | "grid";
 }) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (layout === "grid") return;
+
     const carousel = carouselRef.current;
 
     if (!carousel) return;
@@ -45,7 +49,7 @@ export default function Services({
     }, 4500);
 
     return () => window.clearInterval(interval);
-  }, []);
+  }, [layout]);
 
   return (
     <section
@@ -153,7 +157,11 @@ export default function Services({
         <div className="relative">
           <div
             ref={carouselRef}
-            className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className={
+              layout === "grid"
+                ? "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                : "flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            }
             aria-label="Our services"
           >
             {services.map((service) => (
@@ -161,9 +169,10 @@ export default function Services({
                 key={service.slug}
                 href={`/services/${service.slug}`}
                 data-service-card
-                className="
-                w-[calc(100vw-2rem)]
-                min-w-[calc(100vw-2rem)]
+                className={`
+                ${layout === "grid"
+                  ? "w-full min-w-0"
+                  : "w-[calc(100vw-2rem)] min-w-[calc(100vw-2rem)] sm:w-[calc((100vw-3rem)/2)] sm:min-w-[calc((100vw-3rem)/2)] lg:w-[calc((100%_-_3rem)/3)] lg:min-w-[calc((100%_-_3rem)/3)]"}
                 snap-start
                 group
                 relative
@@ -179,11 +188,7 @@ export default function Services({
                 hover:-translate-y-1
                 hover:border-stone-400
                 hover:shadow-xl
-                sm:w-[calc((100vw-3rem)/2)]
-                sm:min-w-[calc((100vw-3rem)/2)]
-                lg:w-[calc((100%_-_3rem)/3)]
-                lg:min-w-[calc((100%_-_3rem)/3)]
-              "
+              `}
               >
                 {/* =================================================
                   SERVICE IMAGE
@@ -355,26 +360,39 @@ export default function Services({
             ))}
           </div>
 
-          <button
-            type="button"
-            aria-label="Previous service"
-            onClick={() =>
-              carouselRef.current?.scrollBy({ left: -360, behavior: "smooth" })
-            }
-            className="absolute left-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-black/75 text-white transition-colors hover:bg-black sm:left-7 sm:flex"
-          >
-            <ArrowRight className="h-4 w-4 rotate-180" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next service"
-            onClick={() =>
-              carouselRef.current?.scrollBy({ left: 360, behavior: "smooth" })
-            }
-            className="absolute right-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-black/75 text-white transition-colors hover:bg-black sm:right-7 sm:flex"
-          >
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </button>
+          {layout === "carousel" && (
+            <>
+              <button
+                type="button"
+                aria-label="Previous service"
+                onClick={() =>
+                  carouselRef.current?.scrollBy({
+                    left: -360,
+                    behavior: "smooth",
+                  })
+                }
+                className="absolute left-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-black/75 text-white transition-colors hover:bg-black sm:left-7 sm:flex"
+              >
+                <ArrowRight
+                  className="h-4 w-4 rotate-180"
+                  aria-hidden="true"
+                />
+              </button>
+              <button
+                type="button"
+                aria-label="Next service"
+                onClick={() =>
+                  carouselRef.current?.scrollBy({
+                    left: 360,
+                    behavior: "smooth",
+                  })
+                }
+                className="absolute right-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-black/75 text-white transition-colors hover:bg-black sm:right-7 sm:flex"
+              >
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </>
+          )}
         </div>
       </div>
     </section>
