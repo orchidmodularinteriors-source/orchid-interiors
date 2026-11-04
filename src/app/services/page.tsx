@@ -3,39 +3,12 @@ import Navbar from "../components/Navbar";
 import Services from "../components/Services";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
-import { getDesignLibrary, getProjects, getServices } from "@/lib/content";
-import { resolveProjectAsset } from "@/lib/project-assets";
-
-const serviceCategories = [
-  { slug: "modular-kitchen", title: "Modular Kitchen", category: "kitchen" },
-  { slug: "bed-room", title: "Bed Room", category: "bed-room" },
-  { slug: "living-rooms", title: "Living Rooms", category: "living-room" },
-  { slug: "dining-area", title: "Dining Area", category: "dining-room" },
-  { slug: "pooja-units", title: "Pooja Units", category: "pooja-units" },
-  {
-    slug: "office-workstation",
-    title: "Office and Workstation",
-    category: "office-room",
-  },
-  {
-    slug: "aluminium-doors-partitions",
-    title: "Aluminium Doors & Partitions",
-    category: "partition-wall",
-  },
-  {
-    slug: "institutions",
-    title: "Institutions",
-    projectSlug: "kongu-engineering-college",
-    href: "/projects/kongu-engineering-college",
-  },
-  {
-    slug: "hospitality",
-    title: "Hospitality",
-    category: "hotel-room",
-    projectSlug: "sangeetha-dental",
-    href: "/projects/sangeetha-dental",
-  },
-];
+import {
+  buildServiceCatalog,
+  getDesignLibrary,
+  getProjects,
+  getServices,
+} from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Interior Design Services in Coimbatore",
@@ -69,32 +42,11 @@ export default async function ServicesPage() {
     getServices(),
     getProjects(),
   ]);
-  const services = serviceCategories.map((service) => {
-    const category = service.category
-      ? designCategories.find((item) => item.slug === service.category)
-      : undefined;
-    const project = service.projectSlug
-      ? projects.find((item) => item.slug === service.projectSlug)
-      : undefined;
-    const existingService = service.projectSlug
-      ? undefined
-      : existingServices.find((item) =>
-          item.title.toLowerCase().includes("institution"),
-        );
-
-    return {
-      slug: service.slug,
-      title: service.title,
-      image:
-        (project ? resolveProjectAsset(project.image) : undefined) ??
-        category?.images[0] ??
-        existingService?.image ??
-        "/images/projects/4.png",
-      href:
-        service.href ??
-        (category ? `/design-library/${category.slug}` : "/design-library"),
-    };
-  });
+  const services = buildServiceCatalog(
+    designCategories,
+    existingServices,
+    projects,
+  );
 
   return (
     <>

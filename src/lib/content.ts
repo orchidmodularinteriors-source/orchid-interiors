@@ -4,6 +4,7 @@ import type { DesignCategory } from "../app/data/designLibrary";
 import type { Project } from "../app/data/projects";
 import type { Service } from "../app/data/services";
 import { getPublicContentItems } from "@/lib/content-store";
+import { resolveProjectAsset } from "@/lib/project-assets";
 
 const publicDirectory = path.resolve(process.cwd(), "public");
 const serviceImageFallbacks = [
@@ -33,6 +34,45 @@ const serviceDestinations = [
   },
   { terms: ["hotel"], href: "/design-library/hotel-room" },
 ] as const;
+
+type ServiceCategory = {
+  slug: string;
+  title: string;
+  category?: string;
+  projectSlug?: string;
+  href?: string;
+};
+
+const serviceCategories: readonly ServiceCategory[] = [
+  { slug: "modular-kitchen", title: "Modular Kitchen", category: "kitchen" },
+  { slug: "bed-room", title: "Bed Room", category: "bed-room" },
+  { slug: "living-rooms", title: "Living Rooms", category: "living-room" },
+  { slug: "dining-area", title: "Dining Area", category: "dining-room" },
+  { slug: "pooja-units", title: "Pooja Units", category: "pooja-units" },
+  {
+    slug: "office-workstation",
+    title: "Office and Workstation",
+    category: "office-room",
+  },
+  {
+    slug: "aluminium-doors-partitions",
+    title: "Aluminium Doors & Partitions",
+    category: "partition-wall",
+  },
+  {
+    slug: "institutions",
+    title: "Institutions",
+    projectSlug: "kongu-engineering-college",
+    href: "/projects/kongu-engineering-college",
+  },
+  {
+    slug: "hospitality",
+    title: "Hospitality",
+    category: "hotel-room",
+    projectSlug: "sangeetha-dental",
+    href: "/projects/sangeetha-dental",
+  },
+];
 
 export function getServiceHref(slug: string, title: string) {
   const serviceName = `${slug} ${title}`.toLowerCase();
@@ -89,6 +129,38 @@ export async function getServices() {
     image: resolveServiceImage(image, slug, title),
     href: getServiceHref(slug, title),
   }));
+}
+
+export function buildServiceCatalog(
+  designCategories: readonly DesignCategory[],
+  existingServices: readonly Pick<Service, "slug" | "title" | "image">[],
+  projects: readonly Project[],
+) {
+  return serviceCategories.map((service) => {
+    const category = service.category
+      ? designCategories.find((item) => item.slug === service.category)
+      : undefined;
+    const project = service.projectSlug
+      ? projects.find((item) => item.slug === service.projectSlug)
+      : undefined;
+    const href =
+      service.href ??
+      (category ? `/design-library/${category.slug}` : "/design-library");
+    const existingService = existingServices.find(
+      (item) => getServiceHref(item.slug, item.title) === href,
+    );
+
+    return {
+      slug: service.slug,
+      title: service.title,
+      image:
+        (project ? resolveProjectAsset(project.image) : undefined) ??
+        category?.images[0] ??
+        existingService?.image ??
+        getServiceImageFallback(service.slug, service.title),
+      href,
+    };
+  });
 }
 
 export async function getDesignLibrary() {
