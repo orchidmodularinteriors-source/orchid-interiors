@@ -35,19 +35,33 @@ export async function generateMetadata({
   const project = (await getProjects()).find((item) => item.slug === slug);
 
   return {
-    title: project
-      ? `${project.title} | Orchid Interiors`
-      : "Project | Orchid Interiors",
+    title: project ? project.title : "Interior Design Project",
 
     description: project
-      ? `${project.category} interiors by Orchid Interiors in ${project.location}.`
-      : "Selected work by Orchid Interiors.",
+      ? `${project.category} interior design by Orchid Interiors in ${project.location}. View project photos and details.`
+      : "Explore interior design work by Orchid Interiors.",
     alternates: { canonical: `/projects/${slug}` },
     openGraph: project
-      ? { images: [resolveProjectAsset(project.image)] }
+      ? {
+          type: "website",
+          title: project.title,
+          description: `${project.category} interior design by Orchid Interiors in ${project.location}.`,
+          url: `/projects/${slug}`,
+          images: [
+            {
+              url: resolveProjectAsset(project.image),
+              alt: `${project.title} interior design`,
+            },
+          ],
+        }
       : undefined,
     twitter: project
-      ? { images: [resolveProjectAsset(project.image)] }
+      ? {
+          card: "summary_large_image",
+          title: project.title,
+          description: `${project.category} interior design by Orchid Interiors in ${project.location}.`,
+          images: [resolveProjectAsset(project.image)],
+        }
       : undefined,
   };
 }

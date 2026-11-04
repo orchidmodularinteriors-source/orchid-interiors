@@ -6,10 +6,9 @@ import { FieldValue, type DocumentData } from "firebase-admin/firestore";
 import type { Bucket } from "@google-cloud/storage";
 import designLibrarySeed from "../../data/design-library.json";
 import projectsSeed from "../../data/projects.json";
-import servicesSeed from "../../data/services.json";
 import type { DesignCategory } from "@/app/data/designLibrary";
 import type { Project } from "@/app/data/projects";
-import type { Service } from "@/app/data/services";
+import { servicesSeed, type Service } from "@/app/data/services";
 import { getFirebaseServices } from "@/lib/firebase-admin";
 import type { ContentKind } from "@/lib/content-schema";
 
@@ -17,7 +16,7 @@ export type ManagedContent = Service | DesignCategory | Project;
 const publicDirectory = path.join(process.cwd(), "public");
 
 const seedData: Record<ContentKind, ManagedContent[]> = {
-  services: servicesSeed as Service[],
+  services: servicesSeed,
   "design-library": designLibrarySeed as DesignCategory[],
   projects: projectsSeed as Project[],
 };
@@ -318,18 +317,33 @@ export async function updateContentItem(
   await firebase.db.runTransaction(async (transaction) => {
     const existing = await transaction.get(oldDocument);
     if (!existing.exists) throw new Error("The content item no longer exists.");
+    const updatedItem =
+      kind === "services"
+        ? {
+            ...data,
+            number: existing.get("number") ?? "01",
+            updatedAt: FieldValue.serverTimestamp(),
+          }
+        : item;
 
     if (oldSlug !== data.slug) {
       const slugCollision = await transaction.get(newDocument);
       if (slugCollision.exists) throw new Error("An item with this slug already exists.");
-      transaction.set(newDocument, {
-        ...existing.data(),
-        ...item,
-        ...(kind === "projects" ? { id: existing.get("id") } : {}),
-      });
+      transaction.set(
+        newDocument,
+        kind === "services"
+          ? updatedItem
+          : {
+              ...existing.data(),
+              ...updatedItem,
+              ...(kind === "projects" ? { id: existing.get("id") } : {}),
+            },
+      );
       transaction.delete(oldDocument);
+    } else if (kind === "services") {
+      transaction.set(oldDocument, updatedItem);
     } else {
-      transaction.update(oldDocument, item);
+      transaction.update(oldDocument, updatedItem);
     }
   });
 }

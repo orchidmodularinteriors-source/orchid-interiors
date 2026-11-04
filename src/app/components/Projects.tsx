@@ -105,7 +105,7 @@ export default function Projects({
             Our Projects
           </p>
 
-          <h5
+          <h2
             data-projects-title
             className="
               mx-auto
@@ -122,7 +122,7 @@ export default function Projects({
             "
           >
             Spaces we&apos;ve brought to life.
-          </h5>
+          </h2>
 
           <p
             data-projects-description

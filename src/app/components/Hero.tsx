@@ -79,12 +79,16 @@ export default function Hero() {
               LEFT CONTENT
           ====================== */}
           <div className="max-w-[700px] text-left">
-            <h3
+            <p
               data-hero-label
               className="mb-8 text-sm font-medium tracking-[0.32em] text-white/80 sm:text-base md:text-lg"
             >
               ORCHID INTERIORS
-            </h3>
+            </p>
+
+            <h1 className="mb-6 max-w-2xl text-3xl font-light leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
+              Interior design for the way you live.
+            </h1>
 
             <p
               data-hero-description

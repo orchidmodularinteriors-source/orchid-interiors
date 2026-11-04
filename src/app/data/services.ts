@@ -1,11 +1,16 @@
 export type Service = {
-  number: string;
+  number?: string;
   slug: string;
   title: string;
-  description: string;
+  description?: string;
   image: string;
-  gallery: string[];
-  detail: string;
   published?: boolean;
-  video?: string;
 };
+
+export const servicesSeed: Service[] = [
+  {
+    slug: "modular-kitchen",
+    title: "Modular Kitchen",
+    image: "/images/services/modular-kitchen/70.jpg",
+  },
+];

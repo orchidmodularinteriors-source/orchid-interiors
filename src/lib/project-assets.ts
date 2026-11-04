@@ -23,6 +23,6 @@ export function resolveProjectAsset(path: string) {
   const baseName = filename.replace(/\.jpg$/, "").replace(/-\d+$/, "");
 
   return missingProjectAssetPrefixes.includes(baseName)
-    ? "/images/projects/1.png"
+    ? "/images/hero-1.png"
     : assetPath;
 }

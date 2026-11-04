@@ -24,7 +24,7 @@ type ContentItem = {
 type DashboardContent = Record<ContentKind, ContentItem[]>;
 
 const sections: { kind: ContentKind; label: string; description: string }[] = [
-  { kind: "services", label: "Services", description: "Your services and capabilities" },
+  { kind: "services", label: "Services", description: "Service names and cover images" },
   { kind: "design-library", label: "Design Library", description: "Room and design collections" },
   { kind: "projects", label: "Projects", description: "Published client work" },
 ];
@@ -323,17 +323,21 @@ export default function AdminDashboard({
                           <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0">
                               <h4 className="truncate text-sm font-medium">{item.title}</h4>
-                              <p className="mt-1 truncate text-xs text-stone-500">
-                                /{section.kind}/{item.slug}
-                              </p>
+                              {section.kind !== "services" ? (
+                                <p className="mt-1 truncate text-xs text-stone-500">
+                                  /{section.kind}/{item.slug}
+                                </p>
+                              ) : null}
                             </div>
                             <span className="shrink-0 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-medium text-emerald-800">
                               Published
                             </span>
                           </div>
-                          <p className="mt-3 line-clamp-2 min-h-10 text-xs leading-5 text-stone-600">
-                            {item.description}
-                          </p>
+                          {section.kind !== "services" && item.description ? (
+                            <p className="mt-3 line-clamp-2 min-h-10 text-xs leading-5 text-stone-600">
+                              {item.description}
+                            </p>
+                          ) : null}
                           <div className="mt-4 flex gap-2">
                             <Link
                               className="flex-1 rounded-lg border border-stone-200 px-3 py-2 text-center text-xs font-medium transition hover:bg-stone-50"

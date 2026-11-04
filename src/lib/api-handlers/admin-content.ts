@@ -42,11 +42,11 @@ function revalidateContent(kind: (typeof contentKinds)[number], oldSlug?: string
   if (kind === "projects") revalidatePath("/projects");
   if (kind === "design-library") revalidatePath("/design-library");
   if (oldSlug) {
-    revalidatePath(`/${kind}/${oldSlug}`);
+    if (kind !== "services") revalidatePath(`/${kind}/${oldSlug}`);
     if (kind === "design-library") revalidatePath(`/design-library/${oldSlug}`);
   }
   if (slug) {
-    revalidatePath(`/${kind}/${slug}`);
+    if (kind !== "services") revalidatePath(`/${kind}/${slug}`);
     if (kind === "design-library") revalidatePath(`/design-library/${slug}`);
   }
 }
@@ -147,7 +147,8 @@ export async function PATCH(request: NextRequest) {
     );
     if (!existing) return NextResponse.json({ error: "The content item no longer exists." }, { status: 404 });
     await updateContentItem(kind, body.oldSlug, parsed.data);
-    const nextItem = { ...existing, ...parsed.data };
+    const nextItem =
+      kind === "services" ? parsed.data : { ...existing, ...parsed.data };
     const previousMedia = collectMediaUrls(existing);
     const nextMedia = new Set(collectMediaUrls(nextItem));
     let warning: string | undefined;

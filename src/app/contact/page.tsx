@@ -247,6 +247,7 @@ export default function ContactPage() {
       <PageHeader
         image="/images/hero.jpeg"
         imageAlt="Warm interior space designed by Orchid Interiors"
+        title="Contact Orchid Interiors"
         description="Tell us about your project, and our team will get back to you to discuss your vision, requirements and next steps."
       />
 

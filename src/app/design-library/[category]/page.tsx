@@ -23,11 +23,26 @@ export async function generateMetadata({
 
   if (!category) return {};
 
+  const title = `${category.title} Interior Designs`;
+  const description = `Explore ${category.title.toLowerCase()} interior design ideas and completed room designs from Orchid Interiors.`;
+
   return {
-    title: `${category.title} Designs`,
-    description: category.description,
+    title,
+    description,
     alternates: { canonical: `/design-library/${category.slug}` },
-    openGraph: { images: [category.images[0]] },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: `/design-library/${category.slug}`,
+      images: [{ url: category.images[0], alt: `${category.title} interior design` }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [category.images[0]],
+    },
   };
 }
 

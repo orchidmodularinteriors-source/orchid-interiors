@@ -40,12 +40,11 @@ const baseContentSchema = z.object({
   published: z.boolean().default(true),
 });
 
-export const serviceContentSchema = baseContentSchema.extend({
-  image: mediaUrl.min(1, "Upload a cover image."),
-  gallery: z.array(mediaUrl).max(40),
-  video: optionalMediaUrl,
-  detail: z.string().trim().min(2, "Enter service details.").max(3000),
-});
+export const serviceContentSchema = baseContentSchema
+  .omit({ description: true })
+  .extend({
+    image: mediaUrl.min(1, "Upload a cover image."),
+  });
 
 export const designLibraryContentSchema = baseContentSchema.extend({
   images: z.array(mediaUrl).min(1, "Upload at least one design image.").max(40),

@@ -3,6 +3,7 @@ import Image from "next/image";
 interface PageHeaderProps {
   image: string;
   imageAlt: string;
+  eyebrow?: string;
   title?: string;
   description?: string;
 }
@@ -10,6 +11,7 @@ interface PageHeaderProps {
 export default function PageHeader({
   image,
   imageAlt,
+  eyebrow,
   title,
   description,
 }: PageHeaderProps) {
@@ -27,8 +29,13 @@ export default function PageHeader({
       {(title || description) && (
         <div className="relative flex h-full items-center justify-center px-4 text-center text-white sm:px-6 md:px-10 lg:px-16">
           <div className="max-w-3xl">
+            {eyebrow && (
+              <p className="mb-3 text-xs font-medium tracking-[0.3em] text-white/80 uppercase sm:text-sm">
+                {eyebrow}
+              </p>
+            )}
             {title && (
-              <h1 className="mb-6 text-4xl font-light leading-tight sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl font-light leading-tight sm:text-5xl md:text-6xl">
                 {title}
               </h1>
             )}

@@ -5,6 +5,7 @@ import {
   FaLinkedinIn,
   FaPinterestP,
   FaXTwitter,
+  FaWhatsapp,
   FaYoutube,
 } from "react-icons/fa6";
 
@@ -193,6 +194,15 @@ export default function Footer() {
               data-footer-social
               className="flex items-center gap-6 sm:gap-8"
             >
+               <a
+                href="wa.me/91790352563"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Connect with Orchid Interiors on WhatsApp"
+                className="transition-colors duration-300 hover:text-white/60"
+              >
+                <FaWhatsapp className="h-5 w-5 sm:h-6 sm:w-6" />
+              </a>
               <a
                 href="https://www.instagram.com/orchid.modular.interiors/"
                 target="_blank"
@@ -202,7 +212,7 @@ export default function Footer() {
               >
                 <FaInstagram className="h-5 w-5 sm:h-6 sm:w-6" />
               </a>
-              <a
+              {/* <a
                 href="https://www.x.com/orchidmodular"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -210,7 +220,7 @@ export default function Footer() {
                 className="transition-colors duration-300 hover:text-white/60"
               >
                 <FaXTwitter className="h-5 w-5 sm:h-6 sm:w-6" />
-              </a>
+              </a> */}
               <a
                 href="https://www.pinterest.com/orchidmodular/"
                 target="_blank"
@@ -238,6 +248,7 @@ export default function Footer() {
               >
                 <FaYoutube className="h-5 w-5 sm:h-6 sm:w-6" />
               </a>
+
             </div>
 
             {/* Right - Legal Links */}

@@ -28,12 +28,25 @@ const projectReasons = [
 ];
 
 export const metadata: Metadata = {
-  title: "Interior Design Projects",
+  title: "Interior Design Projects in Coimbatore",
   description:
-    "Explore selected residential, commercial, modern and luxury interior design projects by Orchid Interiors.",
+    "Explore residential, commercial, hospitality, and institutional interiors designed by Orchid Interiors in Coimbatore and Tiruppur.",
   alternates: { canonical: "/projects" },
-  openGraph: { url: "/projects", images: ["/images/projects/1.png"] },
-  twitter: { images: ["/images/projects/1.png"] },
+  openGraph: {
+    type: "website",
+    title: "Interior Design Projects in Coimbatore",
+    description:
+      "Explore residential, commercial, hospitality, and institutional interiors designed by Orchid Interiors in Coimbatore and Tiruppur.",
+    url: "/projects",
+    images: [{ url: "/images/hero-1.png", alt: "Orchid Interiors project" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Interior Design Projects in Coimbatore",
+    description:
+      "Explore residential, commercial, hospitality, and institutional interiors designed by Orchid Interiors in Coimbatore and Tiruppur.",
+    images: ["/images/hero-1.png"],
+  },
 };
 
 export const dynamic = "force-dynamic";
@@ -52,8 +65,9 @@ export default async function ProjectsPage() {
     <>
       <Navbar />
       <PageHeader
-        image="/images/projects/1.png"
+        image="/images/hero-1.png"
         imageAlt="Interior design project by Orchid Interiors"
+        title="Interior Design Projects"
       />
       <Projects projects={projects} />
 

@@ -7,6 +7,7 @@ import ChatBot from "./components/ChatBot";
 import { ConsultationModalProvider } from "./components/ConsultationModalProvider";
 import GlobalConsultationModal from "./components/GlobalConsultationModal";
 import ContextMenuGuard from "./components/ContextMenuGuard";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,14 +25,10 @@ const caveat = Caveat({
   subsets: ["latin"],
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://orchidinteriors.com";
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://orchidinteriors.com",
-  ),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Orchid Interiors | Premium Interior Design in Coimbatore",
     template: "%s | Orchid Interiors",
